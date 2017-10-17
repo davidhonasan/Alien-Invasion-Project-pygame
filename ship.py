@@ -7,7 +7,7 @@ class Ship():
         self.settings = settings
 
         # Load the ship image
-        self.image = pygame.image.load("ship.bmp")
+        self.image = pygame.image.load("images/ship.bmp")
         self.rect = self.image.get_rect()
         self.screen_rect = self.screen.get_rect()
 
@@ -36,3 +36,7 @@ class Ship():
     def blitme(self):
         self.screen.blit(self.image, self.rect)
         # The blit function is used to draw the image on the screen
+
+    def center_ship(self):
+        """Center the ship on the screen."""
+        self.center = self.screen_rect.centerx
