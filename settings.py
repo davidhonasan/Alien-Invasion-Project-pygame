@@ -1,19 +1,21 @@
+import pygame
 class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Screen settings
         self.screen_width = 1366
         self.screen_height = 768
-        self.bg_color = (230, 230, 230)
+        self.bg_image = pygame.image.load("images/bg.jpg")
+        self.rect = self.bg_image.get_rect()
 
         # Ship settings
         self.ship_limit = 3
 
         # Bullet settings
         self.bullet_width = 10
-        self.bullet_height = 15
-        self.bullet_color = 60, 60, 60
-        self.bullets_allowed = 5
+        self.bullet_height = 50
+        self.bullet_color = 255, 57, 43
+        self.bullets_allowed = 3
 
         # Alien settings
         self.fleet_drop_speed = 10

@@ -16,9 +16,16 @@ def check_keydown_events(event, settings, screen, ship, bullets):
         fire_bullet(settings, screen, ship, bullets)
     elif event.key == pygame.K_q:
         sys.exit()
-    elif event.key == pygame.K_LSHIFT:
+    elif event.key == pygame.K_LSHIFT: #RUNNING
         settings.ship_speed_factor *= 2
+    elif event.key == pygame.K_LCTRL: #CHEAT
+        ship.continuous_fire = True
+        settings.bullets_allowed = 1000
+        settings.bullet_width = settings.screen_width * 2
 
+def bullet_cheat(settings, screen, ship, bullets):
+    if ship.continuous_fire:
+        fire_bullet(settings, screen, ship, bullets)
 
 def fire_bullet(settings, screen, ship, bullets):
     """Fire a bullet if limit not reached yet."""
@@ -36,6 +43,10 @@ def check_keyup_events(event, settings, ship):
         ship.moving_left = False
     elif event.key == pygame.K_LSHIFT:
         settings.ship_speed_factor /= 2
+    elif event.key == pygame.K_LCTRL: #CHEAT
+        ship.continuous_fire = False
+        settings.bullets_allowed = 3
+        settings.bullet_width = 5
 
 
 def check_events(settings, screen, stats, sb, play_button, ship, aliens, bullets):
@@ -86,7 +97,7 @@ def check_play_button(settings, screen, stats, sb, play_button, ship, aliens,
 def update_screen(settings, screen, stats, sb, ship, aliens, bullets,
                   play_button):
     """Update images on the screen and flip to the new screen."""
-    screen.fill(settings.bg_color)
+    screen.blit(settings.bg_image, settings.rect)
 
     # Redraw all bullets behind ship and aliens.
     for bullet in bullets.sprites():
@@ -109,6 +120,7 @@ def update_bullets(settings, screen, stats, sb, ship, aliens, bullets):
     """Update position of bullets and get rid of old bullets."""
     # Update bullet positions.
     bullets.update()
+    bullet_cheat(settings, screen, ship, bullets)
 
     # Get rid of bullets that have disappeared.
     for bullet in bullets.copy():
